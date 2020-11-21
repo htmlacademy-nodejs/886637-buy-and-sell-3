@@ -3,10 +3,16 @@ const fs = require(`fs`);
 
 const DEFAULT_COUNT = 1;
 const FILE_NAME = `mocks.json`;
+
+const {
+  ExitCode
+} = require(`../../constants`);
+
 const PictureRestrict = {
   MIN: 1,
   MAX: 1000,
 }
+
 const {
   getRandomInt,
   shuffle,
@@ -92,6 +98,10 @@ module.exports = {
   name: `--generate`,
   run(args) {
     const [count] = args;
+    if (count > 1000) {
+      console.log('Не больше 1000 объявлений');
+      process.exit(ExitCode.error);
+    }
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
     const content = JSON.stringify(generateOffers(countOffer));
 
